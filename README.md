@@ -1,6 +1,6 @@
 # token-contracts
 
-The IAM utility token. An SPL Token-2022 mint on Solana with the Confidential Balances extension, enabling private balance and transfer amounts while maintaining on-chain verifiability.
+The Entros utility token. An SPL Token-2022 mint on Solana with the Confidential Balances extension, enabling private balance and transfer amounts while maintaining on-chain verifiability.
 
 ## Token
 
@@ -15,9 +15,9 @@ Confidential Balances encrypt token amounts using twisted ElGamal encryption. Th
 
 ## Utility
 
-**Validator staking.** Validators stake IAM tokens to join the Anonymity Ring and participate in verification attestations. Stake size determines selection weight in VRF-based validator assignment.
+**Validator staking.** Validators stake Entros tokens to join the Anonymity Ring and participate in verification attestations. Stake size determines selection weight in VRF-based validator assignment.
 
-**Governance.** IAM token holders vote on protocol parameters: minimum stake thresholds, trust score weights, challenge expiry, fee structure. One token, one vote. Staked tokens carry governance weight.
+**Governance.** Entros token holders vote on protocol parameters: minimum stake thresholds, trust score weights, challenge expiry, fee structure. One token, one vote. Staked tokens carry governance weight.
 
 ## Distribution
 
@@ -29,31 +29,31 @@ Confidential Balances encrypt token amounts using twisted ElGamal encryption. Th
 | Team | 15% | 24-month linear, 6-month cliff |
 | Initial liquidity | 10% | Unlocked at genesis |
 
-Launch mechanism: MetaDAO or curated community sale. The first airdrop goes to IAM-verified humans only.
+Launch mechanism: MetaDAO or curated community sale. The first airdrop goes to Entros-verified humans only.
 
 ## Revenue Model
 
-Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury PDA — transparent, auditable. Integrators read on-chain verification state for free. Revenue flows to the treasury, which buys IAM tokens on the open market and distributes them to active validators as staking rewards.
+Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury PDA — transparent, auditable. Integrators read on-chain verification state for free. Revenue flows to the treasury, which buys Entros tokens on the open market and distributes them to active validators as staking rewards.
 
 ```
 User pays ~0.005 SOL per verification
   → protocol treasury PDA collects fees
-  → treasury buys IAM tokens on open market
+  → treasury buys Entros tokens on open market
   → validators earn staking rewards
   → better security → more integrations → more verifications
 ```
 
 ## Architecture
 
-The token program integrates with two other IAM Protocol programs:
+The token program integrates with two other Entros Protocol programs:
 
-- **iam-registry** (`protocol-core`): Reads validator stake amounts to determine Anonymity Ring eligibility and VRF selection weight. The registry's `register_validator` instruction will accept IAM token stakes alongside SOL.
+- **entros-registry** (`protocol-core`): Reads validator stake amounts to determine Anonymity Ring eligibility and VRF selection weight. The registry's `register_validator` instruction will accept Entros token stakes alongside SOL.
 - **executor-node**: Reads validator stake amounts for validation node eligibility. Validators earn protocol fee revenue proportional to stake and performance.
 
 ```
 token-contracts/
 └── programs/
-    └── iam-token/
+    └── entros-token/
         └── src/
             └── lib.rs    # Token mint, Confidential Balances, vesting
 ```
