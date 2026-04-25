@@ -8,10 +8,10 @@ skip-lint = false
 # Auto-generated from local keypair. Not deployed.
 # Replaced with the real program ID on first deploy.
 [programs.localnet]
-iam_token = "Bp1B4Azj7AVjvg855Xd7AiPrJFpSxMZMqRSbpUcXaSRe"
+entros_token = "Bp1B4Azj7AVjvg855Xd7AiPrJFpSxMZMqRSbpUcXaSRe"
 
 [programs.devnet]
-iam_token = "Bp1B4Azj7AVjvg855Xd7AiPrJFpSxMZMqRSbpUcXaSRe"
+entros_token = "Bp1B4Azj7AVjvg855Xd7AiPrJFpSxMZMqRSbpUcXaSRe"
 
 [provider]
 cluster = "Localnet"

@@ -1,12 +1,12 @@
 [package]
-name = "iam-token"
+name = "entros-token"
 version = "0.1.0"
 edition = "2021"
-description = "IAM Protocol utility token — SPL Token-2022 with Confidential Balances"
+description = "Entros Protocol utility token — SPL Token-2022 with Confidential Balances"
 
 [lib]
 crate-type = ["cdylib", "lib"]
-name = "iam_token"
+name = "entros_token"
 
 [features]
 default = []

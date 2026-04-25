@@ -1,5 +1,5 @@
 [workspace]
-members = ["programs/iam-token"]
+members = ["programs/entros-token"]
 resolver = "2"
 
 [profile.release]
