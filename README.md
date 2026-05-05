@@ -60,7 +60,7 @@ token-contracts/
 
 ## Status
 
-Phase 7. The program scaffold is in place. Implementation begins after the external security audit of the core protocol (Phase 6).
+Phase 7 (as of 2026-05-04). The program scaffold is in place. Implementation begins after the external security audit of the core protocol (Phase 6).
 
 ## Setup
 
