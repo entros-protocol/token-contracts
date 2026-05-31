@@ -33,13 +33,13 @@ Launch mechanism: MetaDAO or curated community sale. The first airdrop goes to E
 
 ## Revenue Model
 
-Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury PDA — transparent, auditable. Integrators read on-chain verification state for free. Revenue flows to the treasury, which buys Entros tokens on the open market and distributes them to active validators as staking rewards.
+Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury PDA — transparent, auditable. Integrators read on-chain verification state for free. Revenue flows to the treasury, which buys Entros tokens on the open market and distributes them to validators in proportion to validation accuracy — scored against ground-truth benchmarks — not raw verification count.
 
 ```
 User pays ~0.005 SOL per verification
   → protocol treasury PDA collects fees
   → treasury buys Entros tokens on open market
-  → validators earn staking rewards
+  → validators earn rewards weighted by validation accuracy
   → better security → more integrations → more verifications
 ```
 
@@ -48,7 +48,7 @@ User pays ~0.005 SOL per verification
 The token program integrates with two other Entros Protocol programs:
 
 - **entros-registry** (`protocol-core`): Reads validator stake amounts to determine Anonymity Ring eligibility and VRF selection weight. The registry's `register_validator` instruction will accept Entros token stakes alongside SOL.
-- **executor-node**: Reads validator stake amounts for validation node eligibility. Validators earn protocol fee revenue proportional to stake and performance.
+- **executor-node**: Reads validator stake amounts for validation node eligibility. Validators earn in proportion to stake and validation accuracy — scored against ground-truth benchmarks — so passing borderline captures to lift throughput does not increase yield.
 
 ```
 token-contracts/
