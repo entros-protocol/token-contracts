@@ -60,7 +60,7 @@ token-contracts/
 
 ## Status
 
-Phase 7 (as of 2026-05-04). The program scaffold is in place. Implementation begins after the external security audit of the core protocol (Phase 6).
+The program scaffold is in place: an SPL Token-2022 mint with Confidential Balances and vesting. Its protocol-wired utility (validator staking, fee-share, governance) activates alongside the mainnet protocol, after the core-protocol audit.
 
 ## Setup
 
