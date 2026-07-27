@@ -15,31 +15,47 @@ Confidential Balances encrypt token amounts using twisted ElGamal encryption. Th
 
 ## Utility
 
-**Validator staking.** Validators stake Entros tokens to join the Anonymity Ring and participate in verification attestations. Stake size determines selection weight in VRF-based validator assignment.
+None of the mechanisms below are live. Verification runs today on devnet with SOL-denominated
+fees and SOL validator stake. The token has no on-chain coupling to verification. Each mechanism
+activates in phases as the validator network decentralizes, after the core-protocol audit.
 
-**Governance.** Entros token holders vote on protocol parameters: minimum stake thresholds, trust score weights, challenge expiry, fee structure. One token, one vote. Staked tokens carry governance weight.
+**Validator staking.** Validators stake Entros tokens as slashable collateral to join the
+Anonymity Ring and take part in verification attestations. Rewards track validation accuracy
+against ground-truth benchmarks rather than throughput, so passing borderline captures does not
+increase yield.
+
+**Delegation.** Holders who do not run a node delegate stake to a validator and share both the
+accuracy-weighted rewards and the slashing risk.
+
+**Capacity.** High-volume integrators stake for priority access, replacing per-verification fees
+at scale.
+
+**Economic governance.** Holders direct the protocol economy: treasury allocation, the
+verification fee, validator admission policy, and ecosystem funding. Voting weight combines a
+verified Entros Anchor with staked tokens under a lock multiplier.
+
+Detection parameters are not governed by token vote. Trust Score weights, Hamming bounds, and
+validation thresholds are set by calibration against measured data and red-team results, and
+published as a changelog after they change.
 
 ## Distribution
 
-| Allocation | Share | Vesting |
-|------------|-------|---------|
-| Community | 40% | Unlocked at genesis |
-| Ecosystem grants | 20% | 12-month linear |
-| Treasury | 15% | Protocol-controlled |
-| Team | 15% | 24-month linear, 6-month cliff |
-| Initial liquidity | 10% | Unlocked at genesis |
-
-Launch mechanism: MetaDAO or curated community sale. The first airdrop goes to Entros-verified humans only.
+Entros launches as a fair launch with no presale, no private round, and no VC allocation.
+No tokens are minted to the team. Any team-held supply is bought on the open market at launch and
+locked in public vesting contracts anyone can inspect.
 
 ## Revenue Model
 
-Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury PDA — transparent, auditable. Integrators read on-chain verification state for free. Revenue flows to the treasury, which buys Entros tokens on the open market and distributes them to validators in proportion to validation accuracy — scored against ground-truth benchmarks — not raw verification count.
+Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury
+PDA, transparent and auditable. Integrators read on-chain verification state for free.
+
+As the validator network decentralizes, a share of fees routes to validators in proportion to
+validation accuracy, scored against ground-truth benchmarks rather than raw verification count.
 
 ```
 User pays ~0.005 SOL per verification
   → protocol treasury PDA collects fees
-  → treasury buys Entros tokens on open market
-  → validators earn rewards weighted by validation accuracy
+  → validators earn a share weighted by validation accuracy
   → better security → more integrations → more verifications
 ```
 
@@ -60,7 +76,12 @@ token-contracts/
 
 ## Status
 
-The program scaffold is in place: an SPL Token-2022 mint with Confidential Balances and vesting. Its protocol-wired utility (validator staking, fee-share, governance) activates alongside the mainnet protocol, after the core-protocol audit.
+This program is a scaffold. `initialize` is a stub and there is no mint, supply constant,
+extension wiring, or vesting logic in it yet. The properties above describe the intended
+configuration, not deployed code.
+
+The live $ENTROS token was launched separately through a launchpad. Whether this program takes on
+a protocol-wired role, or is retired in favour of the launchpad mint, is an open decision.
 
 ## Setup
 
