@@ -1,98 +1,81 @@
 # token-contracts
 
-The Entros utility token, a standard SPL mint on Solana.
+$ENTROS is the Entros Protocol utility token. It is a standard SPL mint created by a public
+launchpad, not by any program in this repository.
 
-Not to be confused with the **Entros Anchor** in `protocol-core`, which is a separate Token-2022 mint carrying the NonTransferable extension. The Anchor is a soulbound identity credential. This is the fungible utility token.
+This repository holds no code. It exists to answer one question correctly: where does the
+token get its utility, and which repository owns each part.
 
-## Token
+## The mint is not the utility
 
-| Property | Value |
-|----------|-------|
-| Standard | SPL Token |
-| Decimals | 6 |
-| Supply | Fixed at genesis |
+A mint records balances. That is its whole job. It does not know the protocol exists.
 
-$ENTROS launches through a public bonding curve, which mints a standard SPL token. Balances and transfers are public, as they are for any token that trades on an AMM: a pool has to read balances to price a swap.
+Utility lives in programs that require the token to be deposited or locked. Such a program
+owns a Program Derived Address, that address owns a token account, and the program records
+who deposited what and decides when it returns. The mint never observes any of this. A stake,
+a lock and a vesting release are all the same operation from the mint's side, which is a
+balance moving between two accounts.
 
-## Utility
+So the launchpad creating the mint costs the protocol nothing it needs. The only thing the
+protocol takes from the launch is the mint address.
 
-None of the mechanisms below are live. Verification runs today on devnet with SOL-denominated
-fees and SOL validator stake. The token has no on-chain coupling to verification. Each mechanism
-activates in phases as the validator network decentralizes, after the core-protocol audit.
+## Where each mechanism lives
 
-**Validator staking.** Validators stake Entros tokens as slashable collateral to join the
-Anonymity Ring and take part in verification attestations. Rewards track validation accuracy
-against ground-truth benchmarks rather than throughput, so passing borderline captures does not
-increase yield.
+| Mechanism | Repository | Status |
+|-----------|-----------|--------|
+| Validator staking | `protocol-core/entros-registry` | SOL-denominated today. Token-denominated staking is planned |
+| Delegation | `protocol-core/entros-registry` | Not built |
+| Governance voting weight | `entros-governance-plugin` | Deployed on devnet |
+| Founder and treasury lockups | Streamflow | At launch |
+| Integrator capacity tiers | reserved for this repository | Not built |
+| Insurance pool | reserved for this repository | Not built |
 
-**Delegation.** Holders who do not run a node delegate stake to a validator and share both the
-accuracy-weighted rewards and the slashing risk.
+Token-denominated validator staking extends `entros-registry` rather than becoming a separate
+program. That registry already holds `ValidatorState.stake` and checks it against the minimum
+required to join the Anonymity Ring. Keeping the stake and the eligibility check in one
+program keeps one source of truth for validator admission.
 
-**Capacity.** High-volume integrators stake for priority access, replacing per-verification fees
-at scale.
+**The token has no on-chain coupling to verification today.** Verification runs on devnet with
+SOL-denominated fees and SOL validator stake. Each mechanism above activates in phases as the
+validator network decentralizes, after the core-protocol audit.
 
-**Economic governance.** Holders direct the protocol economy: treasury allocation, the
-verification fee, validator admission policy, and ecosystem funding. Voting weight combines a
-verified Entros Anchor with staked tokens under a lock multiplier.
+## What is fixed at mint creation
 
-Detection parameters are not governed by token vote. Trust Score weights, Hamming bounds, and
-validation thresholds are set by calibration against measured data and red-team results, and
-published as a changelog after they change.
+Mint extensions and mint authority are set when a mint is created and cannot be added later.
+For $ENTROS this means:
+
+- **No transfer hook.** The protocol cannot tax transfers or restrict who receives the token.
+- **No Token-2022 extensions.** No confidential balances, no non-transferability.
+- **No further minting**, once the launchpad revokes mint authority.
+
+The third point shapes the reward model. Rewards come from protocol revenue, never from
+emissions, so validator returns track real verification volume rather than an issuance
+schedule.
+
+## Not the Entros Anchor
+
+The **Entros Anchor** is a separate mint in `protocol-core`. It uses Token-2022 with the
+NonTransferable extension and acts as a soulbound identity credential. One Anchor per verified
+person, and it cannot be sold or moved.
+
+$ENTROS is the fungible utility token. Two different standards for two different purposes. Do
+not conflate them.
 
 ## Distribution
 
-Entros launches as a fair launch with no presale, no private round, and no VC allocation.
-The team buys its tokens on the open market at launch rather than receiving a grant, and locks
-them in public vesting contracts anyone can inspect.
-
-## Revenue Model
-
-Users pay ~0.005 SOL per verification as a protocol fee. Fees accumulate in an on-chain treasury
-PDA, transparent and auditable. Integrators read on-chain verification state for free.
-
-As the validator network decentralizes, a share of fees routes to validators in proportion to
-validation accuracy, scored against ground-truth benchmarks rather than raw verification count.
-
-```
-User pays ~0.005 SOL per verification
-  → protocol treasury PDA collects fees
-  → validators earn a share weighted by validation accuracy
-  → better security → more integrations → more verifications
-```
-
-## Architecture
-
-The token program integrates with two other Entros Protocol programs:
-
-- **entros-registry** (`protocol-core`): Reads validator stake amounts to determine Anonymity Ring eligibility and VRF selection weight. The registry's `register_validator` instruction will accept Entros token stakes alongside SOL.
-- **executor-node**: Reads validator stake amounts for validation node eligibility. Validators earn in proportion to stake and validation accuracy — scored against ground-truth benchmarks — so passing borderline captures to lift throughput does not increase yield.
-
-```
-token-contracts/
-└── programs/
-    └── entros-token/
-        └── src/
-            └── lib.rs    # Token mint scaffold
-```
+Entros launches through a public launchpad with no presale, no private round, and no VC
+allocation. The team buys its tokens on the launch curve rather than receiving a grant, and
+locks them through Streamflow on published schedules that anyone can inspect on-chain.
 
 ## Status
 
-This program is a scaffold. `initialize` is a stub and there is no mint, supply constant,
-extension wiring, or vesting logic in it yet. The properties above describe the intended
-configuration, not deployed code.
+There is no program here, and there was never a working one. An earlier scaffold declared an
+`initialize` instruction intended to create the mint. That instruction could not have served
+$ENTROS, because the launchpad creates the mint and a second mint would be a second token. It
+was removed rather than left to mislead.
 
-The $ENTROS token launches separately through a launchpad. Whether this program takes on a
-protocol-wired role, or is retired in favour of the launchpad mint, is an open decision.
-
-## Setup
-
-```bash
-# Prerequisites: Solana CLI >= 2.2, Anchor 0.32.1, Rust
-
-anchor build          # Compile the program
-anchor test           # Run integration tests
-anchor deploy         # Deploy to localnet/devnet
-```
+Code returns to this repository when integrator capacity tiers or the insurance pool are
+specified. Everything else in the table above belongs to a repository that already exists.
 
 ## License
 
