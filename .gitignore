@@ -1,8 +1,3 @@
-.anchor
 .DS_Store
-target
-node_modules
-test-ledger
-.yarn
-*.key
 .env
+*.key
