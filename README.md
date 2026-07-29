@@ -1,17 +1,18 @@
 # token-contracts
 
-The Entros utility token. An SPL Token-2022 mint on Solana with the Confidential Balances extension, enabling private balance and transfer amounts while maintaining on-chain verifiability.
+The Entros utility token, a standard SPL mint on Solana.
+
+Not to be confused with the **Entros Anchor** in `protocol-core`, which is a separate Token-2022 mint carrying the NonTransferable extension. The Anchor is a soulbound identity credential. This is the fungible utility token.
 
 ## Token
 
 | Property | Value |
 |----------|-------|
-| Standard | SPL Token-2022 |
-| Extension | Confidential Balances (ElGamal + Sigma proofs) |
+| Standard | SPL Token |
 | Decimals | 6 |
 | Supply | Fixed at genesis |
 
-Confidential Balances encrypt token amounts using twisted ElGamal encryption. The network verifies transfers via zero-knowledge range and equality proofs without learning the amounts. Balances remain private to the holder.
+$ENTROS launches through a public bonding curve, which mints a standard SPL token. Balances and transfers are public, as they are for any token that trades on an AMM: a pool has to read balances to price a swap.
 
 ## Utility
 
@@ -41,8 +42,8 @@ published as a changelog after they change.
 ## Distribution
 
 Entros launches as a fair launch with no presale, no private round, and no VC allocation.
-No tokens are minted to the team. Any team-held supply is bought on the open market at launch and
-locked in public vesting contracts anyone can inspect.
+The team buys its tokens on the open market at launch rather than receiving a grant, and locks
+them in public vesting contracts anyone can inspect.
 
 ## Revenue Model
 
@@ -71,7 +72,7 @@ token-contracts/
 └── programs/
     └── entros-token/
         └── src/
-            └── lib.rs    # Token mint, Confidential Balances, vesting
+            └── lib.rs    # Token mint scaffold
 ```
 
 ## Status
@@ -80,8 +81,8 @@ This program is a scaffold. `initialize` is a stub and there is no mint, supply 
 extension wiring, or vesting logic in it yet. The properties above describe the intended
 configuration, not deployed code.
 
-The live $ENTROS token was launched separately through a launchpad. Whether this program takes on
-a protocol-wired role, or is retired in favour of the launchpad mint, is an open decision.
+The $ENTROS token launches separately through a launchpad. Whether this program takes on a
+protocol-wired role, or is retired in favour of the launchpad mint, is an open decision.
 
 ## Setup
 
