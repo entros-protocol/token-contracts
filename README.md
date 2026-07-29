@@ -3,8 +3,8 @@
 $ENTROS is the Entros Protocol utility token. It is a standard SPL mint created by a public
 launchpad, not by any program in this repository.
 
-This repository holds no code. It exists to answer one question correctly: where does the
-token get its utility, and which repository owns each part.
+This repository holds no code. It maps where $ENTROS gets its utility and which repository
+owns each part.
 
 ## The mint is not the utility
 
@@ -16,8 +16,7 @@ who deposited what and decides when it returns. The mint never observes any of t
 a lock and a vesting release are all the same operation from the mint's side, which is a
 balance moving between two accounts.
 
-So the launchpad creating the mint costs the protocol nothing it needs. The only thing the
-protocol takes from the launch is the mint address.
+The protocol takes one thing from the launch: the mint address.
 
 ## Where each mechanism lives
 
@@ -30,10 +29,10 @@ protocol takes from the launch is the mint address.
 | Integrator capacity tiers | reserved for this repository | Not built |
 | Insurance pool | reserved for this repository | Not built |
 
-Token-denominated validator staking extends `entros-registry` rather than becoming a separate
-program. That registry already holds `ValidatorState.stake` and checks it against the minimum
-required to join the Anonymity Ring. Keeping the stake and the eligibility check in one
-program keeps one source of truth for validator admission.
+Token-denominated validator staking extends `entros-registry`. That registry already holds
+`ValidatorState.stake` and checks it against the minimum required to join the Anonymity Ring,
+so keeping the stake and the eligibility check in one program keeps one source of truth for
+validator admission.
 
 **The token has no on-chain coupling to verification today.** Verification runs on devnet with
 SOL-denominated fees and SOL validator stake. Each mechanism above activates in phases as the
@@ -49,8 +48,7 @@ For $ENTROS this means:
 - **No further minting**, once the launchpad revokes mint authority.
 
 The third point shapes the reward model. Rewards come from protocol revenue, never from
-emissions, so validator returns track real verification volume rather than an issuance
-schedule.
+emissions, so validator returns track verification volume.
 
 ## Not the Entros Anchor
 
@@ -58,8 +56,7 @@ The **Entros Anchor** is a separate mint in `protocol-core`. It uses Token-2022 
 NonTransferable extension and acts as a soulbound identity credential. One Anchor per verified
 person, and it cannot be sold or moved.
 
-$ENTROS is the fungible utility token. Two different standards for two different purposes. Do
-not conflate them.
+$ENTROS is the fungible utility token. Two different standards, two different purposes.
 
 ## Distribution
 
@@ -69,13 +66,9 @@ locks them through Streamflow on published schedules that anyone can inspect on-
 
 ## Status
 
-There is no program here, and there was never a working one. An earlier scaffold declared an
-`initialize` instruction intended to create the mint. That instruction could not have served
-$ENTROS, because the launchpad creates the mint and a second mint would be a second token. It
-was removed rather than left to mislead.
-
-Code returns to this repository when integrator capacity tiers or the insurance pool are
-specified. Everything else in the table above belongs to a repository that already exists.
+No code. Integrator capacity tiers and the insurance pool are the two mechanisms reserved
+here, and neither is specified yet. Everything else in the table above lives in a repository
+that already exists.
 
 ## License
 
