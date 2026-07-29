@@ -2,7 +2,7 @@
 name = "entros-token"
 version = "0.1.0"
 edition = "2021"
-description = "Entros Protocol utility token — SPL Token-2022 with Confidential Balances"
+description = "Entros Protocol utility token — SPL mint scaffold"
 
 [lib]
 crate-type = ["cdylib", "lib"]
