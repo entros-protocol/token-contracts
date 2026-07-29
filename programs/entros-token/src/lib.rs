@@ -8,7 +8,7 @@ declare_id!("Bp1B4Azj7AVjvg855Xd7AiPrJFpSxMZMqRSbpUcXaSRe");
 pub mod entros_token {
     use super::*;
 
-    /// Initialize the Entros token mint with Confidential Balances extension.
+    /// Initialize the Entros token mint.
     /// Implementation in Phase 7.
     pub fn initialize(_ctx: Context<Initialize>) -> Result<()> {
         Ok(())
