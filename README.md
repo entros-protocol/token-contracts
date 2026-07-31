@@ -6,6 +6,18 @@ launchpad, not by any program in this repository.
 This repository holds no code. It maps where $ENTROS gets its utility and which repository
 owns each part.
 
+## Token Contract Address
+
+```
+fc7hPCHtpNezg7cAp6UoUksHU6Sy98hEGswf8SSEASY
+```
+
+[Launch page on EasyA Kickstart](https://kickstart.easya.io/token/fc7hPCHtpNezg7cAp6UoUksHU6Sy98hEGswf8SSEASY)
+
+Standard SPL mint, 6 decimals, mint authority and freeze authority both revoked. Check it
+against [Solscan](https://solscan.io/token/fc7hPCHtpNezg7cAp6UoUksHU6Sy98hEGswf8SSEASY)
+before you transact.
+
 ## The mint is not the utility
 
 A mint records balances. That is its whole job. It does not know the protocol exists.
