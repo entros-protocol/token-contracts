@@ -57,7 +57,7 @@ For $ENTROS this means:
 
 - **No transfer hook.** The protocol cannot tax transfers or restrict who receives the token.
 - **No Token-2022 extensions.** No confidential balances, no non-transferability.
-- **No further minting**, once the launchpad revokes mint authority.
+- **No further minting.** The mint carries no mint authority, so supply is fixed.
 
 The third point shapes the reward model. Rewards come from protocol revenue, never from
 emissions, so validator returns track verification volume.
@@ -72,8 +72,8 @@ $ENTROS is the fungible utility token. Two different standards, two different pu
 
 ## Distribution
 
-Entros launches through a public launchpad with no presale, no private round, and no VC
-allocation. The team buys its tokens on the launch curve rather than receiving a grant, and
+Entros launched through a public launchpad with no presale, no private round, and no VC
+allocation. The team bought its tokens on the launch curve rather than receiving a grant, and
 locks them through Streamflow on published schedules that anyone can inspect on-chain.
 
 ## Status
