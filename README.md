@@ -34,21 +34,20 @@ The protocol takes one thing from the launch: the mint address.
 
 | Mechanism | Repository | Status |
 |-----------|-----------|--------|
-| Validator staking | `protocol-core/entros-registry` | SOL-denominated today. Token-denominated staking is planned |
+| Validator registration | `protocol-core/entros-registry` | SOL deposit scaffolding deployed on devnet. Selection and rewards are not built |
 | Delegation | `protocol-core/entros-registry` | Not built |
-| Governance voting weight | `entros-governance-plugin` | Deployed on devnet |
+| Governance voting weight | `entros-governance-plugin` | On-chain addin deployed on devnet. Realms client integration is planned |
 | Founder and treasury lockups | Streamflow | At launch |
 | Integrator capacity tiers | reserved for this repository | Not built |
 | Insurance pool | reserved for this repository | Not built |
 
-Token-denominated validator staking extends `entros-registry`. That registry already holds
-`ValidatorState.stake` and checks it against the minimum required to join the Anonymity Ring,
-so keeping the stake and the eligibility check in one program keeps one source of truth for
-validator admission.
+Token-denominated validator staking is planned for `entros-registry`. The current registry
+stores `ValidatorState.stake` and checks its minimum during registration. It does not assign
+validation work, select a quorum, slash stake, or distribute rewards.
 
 **The token has no on-chain coupling to verification today.** Verification runs on devnet with
-SOL-denominated fees and SOL validator stake. Each mechanism above activates in phases as the
-validator network decentralizes, after the core-protocol audit.
+SOL-denominated fees and devnet validator-registration scaffolding. Each planned mechanism
+requires implementation, testing, and review before activation.
 
 ## What is fixed at mint creation
 
@@ -59,14 +58,15 @@ For $ENTROS this means:
 - **No Token-2022 extensions.** No confidential balances, no non-transferability.
 - **No further minting.** The mint carries no mint authority, so supply is fixed.
 
-The third point shapes the reward model. Rewards come from protocol revenue, never from
-emissions, so validator returns track verification volume.
+The third point constrains the planned reward model. Any future rewards must come from
+protocol revenue or an existing allocation because the mint cannot issue new supply.
 
 ## Not the Entros Anchor
 
 The **Entros Anchor** is a separate mint in `protocol-core`. It uses Token-2022 with the
-NonTransferable extension and acts as a soulbound identity credential. One Anchor per verified
-person, and it cannot be sold or moved.
+NonTransferable extension and acts as a wallet-bound protocol credential. The program derives
+one Anchor PDA per wallet and prevents token transfer. Population uniqueness remains a
+validator and research objective.
 
 $ENTROS is the fungible utility token. Two different standards, two different purposes.
 
